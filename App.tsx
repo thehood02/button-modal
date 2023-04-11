@@ -5,114 +5,95 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useState} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StatusBar,
+  SafeAreaView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
+  Modal,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView>
+      <StatusBar barStyle={'light-content'} />
+      <View style={styles.container}>
+        <TouchableNativeFeedback
+          onPress={() => setModalVisible(true)}
+          background={TouchableNativeFeedback.Ripple('#979a96')}>
+          <View style={styles.btn}>
+            <Text style={styles.btnText}>Sample Button</Text>
+          </View>
+        </TouchableNativeFeedback>
+      </View>
+      <Modal
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => setModalVisible(false)}
+          style={styles.modalBg}>
+          <TouchableWithoutFeedback>
+            <View
+              style={styles.modalContainer}>
+              <Text style={styles.modalText}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+                eros mauris, porttitor eget dignissim quis, pharetra faucibus
+                ipsum. Donec at lorem nulla. Phasellus et est nec arcu porta
+                aliquam eu laoreet diam. Cras sed viverra lorem, ac dignissim
+                nibh.
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    height: '100%',
+    backgroundColor: '#c9cec8',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  btn: {
+    backgroundColor: '#fdfffd',
+    paddingVertical: 12,
+    paddingHorizontal: 28,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  btnText: {
+    color: '#000',
+    fontSize: 16,
   },
-  highlight: {
-    fontWeight: '700',
+  modalBg: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
+  modalContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
+  modalText: {
+    color: "#000",
+    fontSize: 16,
+    paddingVertical: 24,
+    paddingHorizontal: 30
+  }
 });
 
 export default App;
