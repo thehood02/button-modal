@@ -36,6 +36,7 @@ function App(): JSX.Element {
       </View>
       <Modal
         transparent
+        animationType="slide"
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
         <TouchableOpacity
